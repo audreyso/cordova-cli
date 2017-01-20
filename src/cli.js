@@ -426,7 +426,8 @@ function cli(inputArgs) {
                             , browserify: args.browserify || false
                             , fetch: args.fetch || false
                             , link: args.link || false
-                            , save: args.save || false
+                            , save: args.save || true   
+                            , nosave: args.nosave || false
                             , shrinkwrap: args.shrinkwrap || false
                             , force: args.force || false
                             };

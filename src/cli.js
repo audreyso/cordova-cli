@@ -233,6 +233,7 @@ function cli(inputArgs) {
         , 'list': Boolean
         , 'buildConfig' : String
         , 'template' : String
+        , 'nosave' : Boolean
         };
 
     var shortHands =
@@ -419,6 +420,13 @@ function cli(inputArgs) {
                 cli_vars[key] = val;
             });
         }
+
+        if (args.nosave) {
+            args.save = false;
+        } else {
+            args.save = true;
+        }
+
         var download_opts = { searchpath : args.searchpath
                             , noregistry : args.noregistry
                             , nohooks : args.nohooks
@@ -426,8 +434,7 @@ function cli(inputArgs) {
                             , browserify: args.browserify || false
                             , fetch: args.fetch || false
                             , link: args.link || false
-                            , save: args.save || true   
-                            , nosave: args.nosave || false
+                            , save: args.save  
                             , shrinkwrap: args.shrinkwrap || false
                             , force: args.force || false
                             };

@@ -190,6 +190,31 @@ describe("cordova cli", function () {
             });
         });
 
+        it("will pass save:false", function (done) {
+            cli(["node", "cordova", "plugin", "add", "device", "--nosave"], function () {
+                expect(cordova.raw.plugin).toHaveBeenCalledWith(
+                    "add",
+                    ["device"],
+                    jasmine.any(Object)
+                );
+                var opts = cordova.raw.plugin.calls[0].args[2];
+                expect(opts.save).toBe(false);
+                done();
+            });
+        });
+
+        it("autosave is default and will pass save:true", function (done) {
+            cli(["node", "cordova", "plugin", "add", "device"], function () {
+                expect(cordova.raw.plugin).toHaveBeenCalledWith(
+                    "add",
+                    ["device"],
+                    jasmine.any(Object)
+                );
+                var opts = cordova.raw.plugin.calls[0].args[2];
+                expect(opts.save).toBe(true);
+                done();
+            });
+        });
     });
     
     describe("telemetry", function() {

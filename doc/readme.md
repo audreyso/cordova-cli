@@ -81,11 +81,11 @@ Certain commands have options (`platformOpts`) that are specific to a particular
         cordova create myApp com.myCompany.myApp myApp
         cd myApp
         # Add camera plugin to the project and remember that in config.xml
-        cordova plugin add cordova-plugin-camera --save
+        cordova plugin add cordova-plugin-camera
         # Add camera plugin to the project and remember that in config.xml. Use npm install to fetch.
         cordova plugin add cordova-plugin-camera --save --fetch
         # Add android platform to the project and remember that in config.xml
-        cordova platform add android --save
+        cordova platform add android
         # Add android platform to the project and remember that in config.xml. Use npm install to fetch.
         cordova platform add android --save --fetch
         # Check to see if your system is configured for building android platform.
@@ -187,7 +187,7 @@ After building the Android and iOS projects, the Android application will contai
 
 #### Version control
 
-It is recommended not to check in `platforms/` and `plugins/` directories into version control as they are considered a build artifact. Instead, you should save the platform/plugin spec in the `config.xml` and they will be downloaded when on the machine when `cordova prepare` is invoked.
+It is recommended not to check in `platforms/` and `plugins/` directories into version control as they are considered a build artifact. Instead, you should add the platform/plugin spec , which will auto-save them in the `config.xml`. These platforms/plugins will be downloaded when on the machine when `cordova prepare` is invoked.
 
 ### Examples
 
@@ -221,11 +221,15 @@ cordova {platform | platforms} [
 | Sub-command           | Option | Description |
 ------------------------|-------------|------|
 | add `<platform-spec>` [...] |  | Add specified platforms |
-|     | --save                   | Save `<platform-spec>` into `config.xml` after installing them using `<engine>` tag |
+|     |                          | Save `<platform-spec>` into `config.xml` after installing them using `<engine>` tag |
+| add `<platform-spec>` [...] |  | Do not add specified platforms |
+|     | --nosave                 | Do not save `<platform-spec>` into `config.xml` after installing them using `<engine>` tag |
 |     | --link=`<path>`          | When `<platform-spec>` is a local path, links the platform library directly instead of making a copy of it (support varies by platform; useful for platform development)
 |     | --fetch                  | Fetches the platform using `npm install` and stores it into the apps `node_modules` directory |
 | remove `<platform>` [...] |    | Remove specified platforms |
-|     | --save                   | Delete specified platforms from `config.xml` after removing them |
+|     |                          | Delete specified platforms from `config.xml` after removing them |
+| remove `<platform>` [...] |    | Do not remove specified platforms |
+|     | --nosave                 | Do not delete specified platforms from `config.xml` after removing them |
 |     | --fetch                  | Removes the platform using `npm uninstall` and removes it from the apps `node_modules` directory |
 | update `platform` [...] |      | Update specified platforms |
 |     | --save                   | Updates the version specified in `config.xml` |
@@ -268,18 +272,26 @@ There are a number of ways to specify a platform:
 
 ### Examples
 
-- Add pinned version of the `android` and `ios` platform and save the downloaded version to `config.xml`:
+- Add pinned version of the `android` and `ios` platform and auto-save the downloaded version to `config.xml`:
 
-        cordova platform add android ios --save
+        cordova platform add android ios
+
+- Add pinned version of the `android` and `ios` platform and do NOT auto-save the downloaded version to `config.xml`:
+
+        cordova platform add android ios --nosave
 
 - Add pinned version of the `android` and `ios` platform and save the downloaded version to `config.xml`. Install
 to the project using `npm install` and store it in the apps `node_modules` directory:
 
         cordova platform add android ios --save --fetch
 
-- Add `android` platform with [semver](http://semver.org/) version ^5.0.0 and save it to `config.xml`:
+- Add `android` platform with [semver](http://semver.org/) version ^5.0.0 and auto-save it to `config.xml`:
 
-        cordova platform add android@^5.0.0 --save
+        cordova platform add android@^5.0.0
+
+- Add `android` platform with [semver](http://semver.org/) version ^5.0.0 and do NOT auto-save it to `config.xml`:
+
+        cordova platform add android@^5.0.0 --nosave
 
 - Add platform by cloning the specified git repo and checkout to the `4.0.0` tag:
 
@@ -293,9 +305,13 @@ to the project using `npm install` and store it in the apps `node_modules` direc
 
         cordova platform add ../cordova-android.tgz
 
-- Remove `android` platform from the project and from `config.xml`:
+- Remove `android` platform from the project and auto-remove from `config.xml`:
 
-        cordova platform rm android --save
+        cordova platform rm android
+
+- Remove `android` platform from the project and do NOT auto-remove from `config.xml`:
+
+        cordova platform rm android --nosave
 
 - Remove `android` platform from the project and from `config.xml`. Run `npm uninstall` to remove it
 from the `node_modules` directory.
@@ -334,7 +350,7 @@ cordova {plugin | plugins} [
 |       |--searchpath `<directory>` | When looking up plugins by ID, look in this directory and each of its subdirectories before hitting the registry. Multiple search paths can be specified. Use ':' as a separator in `*nix` based systems and ';' for Windows.
 |       |--noregistry             | Don't search the registry for plugins.
 |       |--link                   | When installing from a local path, creates a symbolic link instead of copying files. The extent to which files are linked varies by platform. Useful for plugin development.
-|       |--save                   | Save the `<plugin-spec>` as part of the `plugin` element  into `config.xml`.
+|       |--nosave                 | Do NOT save the `<plugin-spec>` as part of the `plugin` element  into `config.xml`.
 |       |--browserify             | Compile plugin JS at build time using browserify instead of runtime.
 |       |--force                  | _Introduced in version 6.1._ Forces copying source files from the plugin even if the same file already exists in the target directory.
 |       |--fetch                 | Fetches the plugin using `npm install` and stores it into the apps `node_modules` directory |
@@ -367,19 +383,23 @@ When adding a plugin to a project, the CLI will resolve the plugin
 based on the following criteria (listed in order of precedence):
 
 1. The `plugin-spec` given in the command (e.g. `cordova plugin add pluginID@version`)
-2. The `plugin-spec` saved in `config.xml` (i.e. if the plugin was previously added with `--save`)
+2. The `plugin-spec` saved in `config.xml` (i.e. if the plugin was previously added without `--nosave`)
 3. As of Cordova version 6.1, the latest plugin version published to npm that the current project can support (only applies to plugins that list their [Cordova dependencies] in their `package.json`)
 4. The latest plugin version published to npm
 
 ### Examples
 
-- Add `cordova-plugin-camera` and `cordova-plugin-file` to the project and save it to `config.xml`. Use `../plugins` directory to search for the plugins.
+- Add `cordova-plugin-camera` and `cordova-plugin-file` to the project and it be be auto-saved to `config.xml`. Use `../plugins` directory to search for the plugins.
 
         cordova plugin add cordova-plugin-camera cordova-plugin-file --save --searchpath ../plugins
 
 - Add `cordova-plugin-camera` with [semver](http://semver.org/) version ^2.0.0 and save it to `config.xml`:
 
-        cordova plugin add cordova-plugin-camera@^2.0.0 --save
+        cordova plugin add cordova-plugin-camera@^2.0.0
+
+- Add `cordova-plugin-camera` with [semver](http://semver.org/) version ^2.0.0 and do NOT auto-save it to `config.xml`:
+
+        cordova plugin add cordova-plugin-camera@^2.0.0 --nosave
 
 - Add `cordova-plugin-camera` with [semver](http://semver.org/) version ^2.0.0 and `npm install` it. It will be stored in the `node_modules` directory:
 
@@ -387,7 +407,11 @@ based on the following criteria (listed in order of precedence):
 
 - Clone the specified git repo, checkout to tag `2.1.0`, look for plugin.xml in the `plugin` directory, and add it to the project. Save the `plugin-spec` to `config.xml`:
 
-        cordova plugin add https://github.com/apache/cordova-plugin-camera.git#2.1.0:plugin --save
+        cordova plugin add https://github.com/apache/cordova-plugin-camera.git#2.1.0:plugin
+
+- Clone the specified git repo, checkout to tag `2.1.0`, look for plugin.xml in the `plugin` directory, and add it to the project. Do NOT auto-save the `plugin-spec` to `config.xml`:
+
+        cordova plugin add https://github.com/apache/cordova-plugin-camera.git#2.1.0:plugin --nosave
 
 - Add the plugin from the specified local directory:
 
@@ -395,11 +419,15 @@ based on the following criteria (listed in order of precedence):
 
 - Add the plugin from the specified tarball file:
 
-        cordova plugin add ../cordova-plugin-camera.tgz --save
+        cordova plugin add ../cordova-plugin-camera.tgz
 
-- Remove the plugin from the project and the `config.xml`:
+- Auto-remove the plugin from the project and the `config.xml`:
 
-        cordova plugin rm camera --save
+        cordova plugin rm camera
+
+- Auto-remove the plugin from the project, but not the `config.xml`:
+
+        cordova plugin rm camera --nosave
 
 - Remove the plugin from the project and `npm uninstall` it. Removes it from the `node_modules` directory:
 

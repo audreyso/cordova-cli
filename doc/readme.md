@@ -220,12 +220,12 @@ cordova {platform | platforms} [
 
 | Sub-command           | Option | Description |
 ------------------------|-------------|------|
-| add `<platform-spec>` [...] |  | Do not add specified platforms |
-|     | --nosave                 | Do not save `<platform-spec>` into `config.xml` &            `package.json` after installing them using `<engine>` tag |
+| add `<platform-spec>` [...] |  | Add specified platforms |
+|     | --nosave                 | Do not save `<platform-spec>` into `config.xml` & `package.json` after installing them using `<engine>` tag |
 |     | --link=`<path>`          | When `<platform-spec>` is a local path, links the platform library directly instead of making a copy of it (support varies by platform; useful for platform development)
 |     | --fetch                  | Fetches the platform using `npm install` and stores it into the apps `node_modules` directory |
-| remove `<platform>` [...] |    | Do not remove specified platforms |
-|     | --nosave                 | Do not delete specified platforms from `config.xml` &        `package.json` after removing them |
+| remove `<platform>` [...] |    | Remove specified platforms |
+|     | --nosave                 | Do not delete specified platforms from `config.xml` & `package.json` after removing them |
 |     | --fetch                  | Removes the platform using `npm uninstall` and removes it from the apps `node_modules` directory |
 | update `platform` [...] |      | Update specified platforms |
 |     | --save                   | Updates the version specified in `config.xml` |

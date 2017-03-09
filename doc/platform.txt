@@ -4,11 +4,11 @@ Synopsis
 
 Manage project platforms
 
-    add <plat-spec> [...].............. Add specified platforms and autosave platforms
-                                        into config.xml after installing them
+    add <plat-spec> [...].............. Add specified platforms and save platforms
+                                        into config.xml & package.json after installing them
 
         --nosave ...................... Prevent saving platforms into
-                                        config.xml after installing them
+                                        config.xml & package.json after installing them
 
         --link ........................ When <plat-spec> is a local path, links the platform
                                         library directly instead of making a copy of it (support
@@ -22,7 +22,7 @@ Manage project platforms
 
     remove <platform> [...] ........... Remove specified platforms
         --nosave ...................... Prevent deleting specified platforms from 
-                                        config.xml after removing them
+                                        config.xml & package.json after removing them
 
         --fetch ....................... Removes the plugin from the project's node_modules directory.
                                         Runs `npm uninstall` under the hood.
@@ -36,7 +36,8 @@ Manage project platforms
 
     list .............................. List all installed and available platforms
     check ............................. List platforms which can be updated by `cordova-cli platform update`
-    nosave ............................ Prevents saving version of all platforms added to config.xml/package.json
+    nosave ............................ Prevents saving version of all platforms added to 
+                                        config.xml & package.json
 
 
 Syntax
@@ -54,10 +55,10 @@ Aliases
     ls -> list
 
 Examples
-    cordova-cli platform add android ios --nosave
-    cordova-cli platform add android@^5.0.0 --nosave
-    cordova-cli platform add https://github.com/myfork/cordova-android.git#4.0.0 --nosave
-    cordova-cli platform add ../android --nosave
-    cordova-cli platform add ../cordova-android.tgz --nosave
+    cordova-cli platform add android ios
+    cordova-cli platform add android@^5.0.0
+    cordova-cli platform add https://github.com/myfork/cordova-android.git#4.0.0
+    cordova-cli platform add ../android
+    cordova-cli platform add ../cordova-android.tgz
     cordova-cli platform rm android --nosave
     cordova-cli platform ls

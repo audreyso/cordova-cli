@@ -45,8 +45,8 @@ This simple example demonstrates how Cordova CLI can be used to create a `myApp`
 ```bash
     cordova create myApp com.myCompany.myApp myApp
     cd myApp
-    cordova plugin add cordova-plugin-camera --save
-    cordova platform add android --save
+    cordova plugin add cordova-plugin-camera
+    cordova platform add android
     cordova requirements android    
     cordova build android --verbose
     cordova run android
